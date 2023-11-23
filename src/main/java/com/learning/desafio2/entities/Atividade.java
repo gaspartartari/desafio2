@@ -9,9 +9,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+
 
 @Entity
 @Table(name = "tb_atividade")
@@ -32,6 +36,10 @@ public class Atividade {
 
     @OneToMany(mappedBy = "atividade")
     private Set<Bloco> blocos = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "tb_atividade_participante", joinColumns = @JoinColumn(name = "atividade_id"), inverseJoinColumns = @JoinColumn(name = "participante_id"))
+    private Set<Participante> participantes = new HashSet<>();
 
     public Atividade(){
 
@@ -87,6 +95,10 @@ public class Atividade {
 
     public Set<Bloco> getBlocos() {
         return blocos;
+    }
+
+    public Set<Participante> getParticipantes(){
+        return participantes;
     }
 
     @Override
